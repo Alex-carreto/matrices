@@ -4,7 +4,6 @@
 
 void llenarMatrizAleatoriamente(int matriz[][100], int filas, int columnas) 
 {
-    srand(time(0));
     for (int i = 0; i < filas; ++i) 
 	{
         for (int j = 0; j < columnas; ++j) 
@@ -107,7 +106,8 @@ int main()
         printf("Elija una opcion: ");
         scanf("%d", &opcion);
 
-        if (opcion == 6) {
+        if (opcion == 6) 
+		{
             printf("Programa terminado.\n");
             break;
         }
@@ -115,15 +115,17 @@ int main()
         int filas, columnas;
         printf("Ingrese el numero de filas y columnas de las matrices: ");
         scanf("%d", &filas);
-        columnas = filas; // Para asegurarnos de que sean matrices cuadradas
+        columnas = filas; 
 
         int matrizA[100][100], matrizB[100][100], resultado[100][100];
 
         printf("Llenando la matriz A aleatoriamente:\n");
+        srand(time(0)); 
         llenarMatrizAleatoriamente(matrizA, filas, columnas);
         mostrarMatriz(matrizA, filas, columnas);
 
         printf("Llenando la matriz B aleatoriamente:\n");
+        srand(time(0) + 1); 
         llenarMatrizAleatoriamente(matrizB, filas, columnas);
         mostrarMatriz(matrizB, filas, columnas);
 
@@ -141,11 +143,12 @@ int main()
                 break;
             case 3:
                 if (filas == columnas) 
-				{ // Solo se pueden multiplicar si son cuadradas
+				{ 
                     multiplicarMatrices(matrizA, matrizB, resultado, filas, filas, filas);
                     printf("Resultado de la multiplicacion de matrices:\n");
                     mostrarMatriz(resultado, filas, filas);
-                } else 
+                } 
+				else 
 				{
                     printf("Las matrices deben ser cuadradas para la multiplicacion.\n");
                 }

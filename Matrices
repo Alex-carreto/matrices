@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void llenarMatrizAleatoriamente(int matriz[][100], int filas, int columnas) 
+{
+    srand(time(0));
+    for (int i = 0; i < filas; ++i) 
+	{
+        for (int j = 0; j < columnas; ++j) 
+		{
+            matriz[i][j] = rand() % 10; 
+        }
+    }
+}
+
+void mostrarMatriz(int matriz[][100], int filas, int columnas) 
+{
+    for (int i = 0; i < filas; ++i) 
+	{
+        for (int j = 0; j < columnas; ++j) 
+		{
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void sumaMatrices(int matrizA[][100], int matrizB[][100], int resultado[][100], int filas, int columnas) 
+{
+    for (int i = 0; i < filas; ++i) 
+	{
+        for (int j = 0; j < columnas; ++j) 
+		{
+            resultado[i][j] = matrizA[i][j] + matrizB[i][j];
+        }
+    }
+}
+
+void restaMatrices(int matrizA[][100], int matrizB[][100], int resultado[][100], int filas, int columnas) 
+{
+    for (int i = 0; i < filas; ++i) 
+	{
+        for (int j = 0; j < columnas; ++j) 
+		{
+            resultado[i][j] = matrizA[i][j] - matrizB[i][j];
+        }
+    }
+}
+
+void multiplicarMatrices(int matrizA[][100], int matrizB[][100], int resultado[][100], int filasA, int columnasA, int columnasB) 
+{
+    for (int i = 0; i < filasA; ++i) 
+	{
+        for (int j = 0; j < columnasB; ++j) 
+		{
+            resultado[i][j] = 0;
+            for (int k = 0; k < columnasA; ++k) 
+			{
+                resultado[i][j] += matrizA[i][k] * matrizB[k][j];
+            }
+        }
+    }
+}
+
+int sumaDiagonal(int matriz[][100], int filas, int columnas) 
+{
+    int suma = 0;
+    for (int i = 0; i < filas; ++i) 
+	{
+        for (int j = 0; j < columnas; ++j) 
+		{
+            if (i == j) 
+			{
+                suma += matriz[i][j];
+            }
+        }
+    }
+    return suma;
+}
+
+int sumaTriangularSuperior(int matriz[][100], int filas, int columnas) 
+{
+    int suma = 0;
+    for (int i = 0; i < filas; ++i) 
+	{
+        for (int j = i; j < columnas; ++j) 
+		{
+            suma += matriz[i][j];
+        }
+    }
+    return suma;
+}
+
+int main() 
+{
+    int opcion;
+    do 
+	{
+        printf("Menu:\n");
+        printf("1. Suma de matrices:\n");
+        printf("2. Resta de matrices:\n");
+        printf("3. Multiplicacion de matrices:\n");
+        printf("4. Diagonal de matriz:\n");
+        printf("5. Suma triangular:\n");
+        printf("6. Terminar\n");
+        printf("Elija una opcion: ");
+        scanf("%d", &opcion);
+
+        if (opcion == 6) {
+            printf("Programa terminado.\n");
+            break;
+        }
+
+        int filas, columnas;
+        printf("Ingrese el numero de filas y columnas de las matrices: ");
+        scanf("%d", &filas);
+        columnas = filas; // Para asegurarnos de que sean matrices cuadradas
+
+        int matrizA[100][100], matrizB[100][100], resultado[100][100];
+
+        printf("Llenando la matriz A aleatoriamente:\n");
+        llenarMatrizAleatoriamente(matrizA, filas, columnas);
+        mostrarMatriz(matrizA, filas, columnas);
+
+        printf("Llenando la matriz B aleatoriamente:\n");
+        llenarMatrizAleatoriamente(matrizB, filas, columnas);
+        mostrarMatriz(matrizB, filas, columnas);
+
+        switch (opcion) 
+		{
+            case 1:
+                sumaMatrices(matrizA, matrizB, resultado, filas, columnas);
+                printf("Resultado de la suma de matrices:\n");
+                mostrarMatriz(resultado, filas, columnas);
+                break;
+            case 2:
+                restaMatrices(matrizA, matrizB, resultado, filas, columnas);
+                printf("Resultado de la resta de matrices:\n");
+                mostrarMatriz(resultado, filas, columnas);
+                break;
+            case 3:
+                if (filas == columnas) 
+				{ // Solo se pueden multiplicar si son cuadradas
+                    multiplicarMatrices(matrizA, matrizB, resultado, filas, filas, filas);
+                    printf("Resultado de la multiplicacion de matrices:\n");
+                    mostrarMatriz(resultado, filas, filas);
+                } else 
+				{
+                    printf("Las matrices deben ser cuadradas para la multiplicacion.\n");
+                }
+                break;
+            case 4:
+                printf("La suma de la diagonal de la matriz A es: %d\n", sumaDiagonal(matrizA, filas, columnas));
+                break;
+            case 5:
+                printf("La suma de la triangular superior de la matriz A es: %d\n", sumaTriangularSuperior(matrizA, filas, columnas));
+                break;
+            default:
+                printf("Opcion no valida. Intente de nuevo.\n");
+        }
+
+    } while (opcion != 6);
+
+    return 0;
+}
